@@ -18,7 +18,7 @@ File Navigator is a PowerShell-based file management tool that provides a fast, 
 
 ### Key Features
 
-- **Dual Search Modes**: Toggle between PDF search and STP/ZIP search using `Ctrl+S`
+- **Three Search Modes**: Cycle between PDF, STP/ZIP and Recent using `Ctrl+T`
 - **Live Search**: Real-time filtering as you type
 - **Article Number Extraction**: Uses regex patterns to identify and highlight article numbers in filenames
 - **Outlook Integration**: Automatically creates emails with file attachments or adds to existing open emails
