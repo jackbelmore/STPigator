@@ -1,13 +1,12 @@
 <#
-    navigator.ps1  –  v12.0 (Header Visibility Fix)
-    • FIXED: Header visibility issue - buffer size matches window exactly
-    • FIXED: Console auto-scrolling that pushed header out of view
-    • FIXED: Cursor positioning to prevent automatic viewport scrolling
-    • FIXED: First row disappearance issue - corrected viewport scrolling logic
-    • FIXED: Ctrl+T mode switching works perfectly (changed from Ctrl+S)
-    • FIXED: Variable scoping bug in viewport calculations
-    • FIXED: Off-by-one error in scroll trigger logic
-    • Cleaned status bar - removed long file paths
+.SYNOPSIS
+    STPigator: keyboard-driven search of local datasheets and CAD files,
+    with one-key Outlook attach.
+
+.DESCRIPTION
+    Loads the Data folder at startup, filters results as the user types
+    (with ? and * wildcards), highlights article numbers and type keys,
+    and keeps a history of the 20 most recently used files.
 #>
 
 [CmdletBinding()] param()
@@ -112,7 +111,7 @@ function Try-OutlookAttach {
     }
     
     try {
-        # FIX: Explicitly name the -Attachments parameter for robust binding.
+        # Name the -Attachments parameter explicitly for reliable binding.
         $null = & $outlookScriptPath -Article $Article -TypeKey $TypeKey -Attachments $File.FullName -ErrorAction Stop
         return $true
     }
@@ -433,7 +432,7 @@ try {
         $k = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
         
         $needsRedraw = $true
-        # --- FIX: Detect Ctrl using ControlKeyState string matching ---
+        # Detect Ctrl and Shift from the key state
         $isCtrl = ($k.ControlKeyState -match "LeftCtrlPressed|RightCtrlPressed") -or ($k.Modifiers -band 4)
         $isShift = ($k.ControlKeyState -match "ShiftPressed") -or ($k.Modifiers -band 1)
 

@@ -54,20 +54,13 @@ The PDF mode uses a specific regex pattern to identify article numbers: 6 digits
 # Navigate to Scripts directory and run:
 .\navigator.ps1
 
-# If execution policy error occurs, run as administrator:
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# Normally launched through STPigator.bat, which bypasses execution policy for its own process only
 ```
 
-### Recent Fixes (v10.0)
-- **FIXED**: First row disappearance issue that was causing display problems
-- **FIXED**: Unwanted scrolling when typing search terms
-- **Implemented**: "Total screen paint" approach using `[System.Console]::Clear()` for reliable rendering
-- **Improved**: Sequential top-to-bottom rendering eliminates cursor position artifacts
-- **Simplified**: Draw-Line function removes complex cursor manipulation
 
 ### Keyboard Controls
 - **Live Search**: Start typing to filter files
-- **Ctrl+S**: Toggle between PDF and STP/ZIP search modes
+- **Ctrl+T**: Cycle between PDF, STP/ZIP and Recent modes
 - **Up/Down Arrows**: Navigate file list
 - **Enter**: Attach selected file to Outlook email
 - **Ctrl+O**: Open selected file in default application

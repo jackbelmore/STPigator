@@ -1,159 +1,101 @@
 # STPigator
 
+A keyboard-driven file finder for Windows that searches a local library of product
+datasheets (PDF) and CAD files (STP/ZIP) as you type, and attaches the selected file to
+an Outlook email with one key press.
 
-A fast, keyboard-driven file navigator for searching and managing PDF, STP, and ZIP files with intelligent highlighting and Outlook integration.
+It was built for an engineering support team that answers many customer requests for
+the same documents each day. It replaced searching through a virtual desktop's file
+browser, which took around 20 seconds per query, with near-instant results.
 
-Built for an engineering team's daily datasheet and CAD-file requests. The code was written by AI coding tools (Claude Code and Gemini Code Assist) under my direction: I set the requirements, reviewed the plans and tested it.
+The code was written by AI coding tools (Claude Code and Gemini Code Assist) under my
+direction: I set the requirements, reviewed the plans and tested it in daily use.
 
+## Features
 
-## 📋 Table of Contents
+- **Live search** of the whole library as you type, with `?` and `*` wildcards
+- **Three modes**, switched with `Ctrl+T`: datasheets (PDF), CAD files (STP/ZIP), and the 20 most recently used files
+- **One-key Outlook attach**: adds the file to the email currently open, or creates a new email if none is open
+- **Automatic subject line**: the article number and type key are read from the filename and used as the email subject
+- **Highlighting** of article numbers (green) and type keys (yellow) in the results
+- **Safe delete**: files are moved to the Recycle Bin, not deleted permanently
 
-- [🚀 Quick Start](#-quick-start)
-- [⚙️ First-Time Setup](#️-first-time-setup)
-- [🎮 How to Use](#-how-to-use)
-- [⌨️ Keyboard Shortcuts](#️-keyboard-shortcuts)
-- [🔍 Smart Features](#-smart-features)
-- [📁 File Organization](#-file-organization)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [💡 Tips & Tricks](#-tips--tricks)
+## Design constraints
 
-## 🚀 Quick Start
+The tool had to run on locked-down company machines without IT involvement:
 
-1. **Populate your data folders** with PDF and STP/ZIP files
-2. **Double-click `STPigator.bat`** to launch
-3. **Start typing** to search files instantly
-4. **Press `Enter`** to attach to Outlook or **`Ctrl+O`** to open directly
+- Uses only PowerShell and components built into Windows; nothing to install
+- Needs no administrator rights
+- Searches only its own `Data` folder
+- Runs PowerShell with an execution-policy bypass for its own process only; it does not change system or user policy
 
-## ⚙️ First-Time Setup
+## Requirements
 
-### 1. Organize Your Files
+- Windows 10 or 11 with Windows PowerShell 5.1
+- Microsoft Outlook (desktop) for the attach feature; without it, files open in their default application
 
-Place your files in the correct folders:
+## Setup
 
-```
-STPigator/
-├── Data/
-│   ├── PDFs/           # Place all PDF files here
-│   └── STP_and_ZIPs/   # Place all STP and ZIP files here
-└── STPigator.bat       # Double-click to run
-```
+1. Download or clone this repository.
+2. Create the data folders and add your files:
 
-### 2. Launch the Application
-- **Double-click** `STPigator.bat`
-
-## 🎮 How to Use
-
-### Basic Navigation
-- **Type to search** - Instant file filtering as you type
-- **Arrow keys** - Navigate up/down through results  
-- **`Ctrl+T`** - Cycle between PDFs → STP/ZIPs → Recent Files
-- **`Esc`** - Exit the application
-
-### File Actions
-- **`Enter`** - Attach file to Outlook email
-- **`Ctrl+O`** - Open file in default application
-- **`Delete`** - Move file to Recycle Bin
-- **`Ctrl+1-0`** - Quick select files 1-10 from visible list
-
-## ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| **Type** | Live search filtering |
-| **↑/↓** | Navigate file list |
-| **`Ctrl+T`** | Switch between PDFs/STP/Recent modes |
-| **`Enter`** | Attach to Outlook email |
-| **`Ctrl+O`** | Open file directly |
-| **`Delete`** | Move file to Recycle Bin |
-| **`Ctrl+1-0`** | Quick select numbered files |
-| **`Ctrl+U/D`** | Page up/down (half page) |
-| **`Ctrl+Q`** | Quit application |
-| **`Esc`** | Exit |
-
-## 🔍 Smart Features
-
-### Intelligent Highlighting
-- **🟢 Green** - Article numbers (e.g., `123456.A01`, `123456E`)
-- **🟡 Yellow** - Type keys (e.g., `AB12C-3DE.F4.GH`)
-
-### Advanced Search
-- **Wildcard patterns** - Use `?` and `*` (e.g., `FN?80*V` finds `FN080ZIQGLV7P3`)
-- **Partial matching** - Type any part of filename
-- **Real-time results** - Instant filtering as you type
-
-### File Modes
-- **📄 PDFs** - Technical documents and datasheets
-- **📦 STP/ZIPs** - CAD files and archives  
-- **🕒 Recent** - Last 20 accessed files (auto-tracked)
-
-### Outlook Integration
-- **Smart attachment** - Adds files to open draft emails or creates new ones
-- **Automatic fallback** - Opens files directly if Outlook unavailable
-- **Silent operation** - No interrupting success messages
-
-## 📁 File Organization
-
-### Supported Formats
-- **PDFs:** `.pdf` files in `Data/PDFs/`
-- **STP Files:** `.stp` files in `Data/STP_and_ZIPs/`
-- **Archives:** `.zip` files in `Data/STP_and_ZIPs/`
-
-### Article Number Recognition
-Automatically detects and highlights these patterns:
-- `123456` - 6-digit base numbers
-- `123456E` - With letter suffix  
-- `123456.A01` - With dot separator
-- `123456-A01` - With dash separator
-- `123456_H01` - With underscore separator
-
-## 🔧 Troubleshooting
-
-### PowerShell Execution Policy Error
-
-If you see a PowerShell execution policy error when running `STPigator.bat`:
-
-1. **Right-click PowerShell** → **"Run as administrator"**
-2. **Run this command:**
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```text
+   STPigator/
+   ├── Data/
+   │   ├── PDFs/            datasheets (.pdf)
+   │   └── STP_and_ZIPs/    CAD files and archives (.stp, .zip)
+   ├── Scripts/
+   │   ├── navigator.ps1
+   │   └── New-OutlookEmail.ps1
+   └── STPigator.bat
    ```
-3. **Close PowerShell** and run STPigator normally
 
+3. Double-click `STPigator.bat`.
 
-### Common Issues
+The `Data` folder and the recent-files history are listed in `.gitignore` and are never committed.
 
-**"No files found"**
-- Verify files are in correct `Data/PDFs/` or `Data/STP_and_ZIPs/` folders
-- Check file extensions are `.pdf`, `.stp`, or `.zip`
+## Keyboard shortcuts
 
-**"Outlook attachment failed"**
-- Application automatically opens file instead
-- Ensure Outlook is running for email attachment
+| Key | Action |
+|---|---|
+| Type | Filter results |
+| `Backspace` | Delete the last search character |
+| `Up` / `Down` | Move through results |
+| `Page Up` / `Page Down` | Move one page |
+| `Ctrl+U` / `Ctrl+D` | Move half a page |
+| `Enter` | Attach the selected file to Outlook |
+| `Ctrl+1` to `Ctrl+0` | Attach visible result 1 to 10 |
+| `Ctrl+O` | Open the selected file |
+| `Ctrl+T` | Switch mode: PDFs, STP/ZIPs, Recent |
+| `Delete` | Move the selected file to the Recycle Bin |
+| `Esc` or `Ctrl+Q` | Quit |
 
-**Search not working**
-- Clear search with `Backspace`
-- Try different search terms or wildcards
+## Filename recognition
 
-### Advanced Troubleshooting
-- **PowerShell errors:** Ensure execution policy is set (see above)
-- **File access issues:** Run as administrator if needed
-- **Performance:** Tool pre-loads files at startup for fast searching
+Article numbers are six digits, optionally followed by a suffix:
 
-## 💡 Tips & Tricks
+| Pattern | Example |
+|---|---|
+| Base number | `123456` |
+| Letter suffix | `123456E` |
+| Dot, dash or underscore suffix | `123456.A01`, `123456-A01`, `123456_H01` |
 
-### Efficient Workflows
-1. **Use Recent Files** - `Ctrl+T` to access your last 20 used files
-2. **Wildcard Search** - `FN?80*` finds all FN080 variants quickly  
-3. **Quick Select** - `Ctrl+3` jumps to 3rd file in current view
-4. **Safe Deletion** - `Delete` key moves to Recycle Bin (recoverable)
+Type keys are two capital letters followed by two or three digits and further characters,
+for example `AB12C-3DE.F4.GH`.
 
-### Power User Features
-- **Article extraction** - Automatically populates email subjects
-- **Type key detection** - Identifies technical specifications
-- **Memory efficiency** - Files cached for instant search results
-- **Cross-platform paths** - Works with network drives and cloud storage
+## Troubleshooting
 
----
+| Problem | Fix |
+|---|---|
+| No files found | Check the files are in `Data/PDFs` or `Data/STP_and_ZIPs` and have a `.pdf`, `.stp` or `.zip` extension |
+| File opens instead of attaching | Outlook is not running or not installed; start Outlook and try again |
+| Script blocked by policy | Launch through `STPigator.bat`, not by running `navigator.ps1` directly |
 
-**Need help?** Open an issue on GitHub or check the [troubleshooting section](#-troubleshooting).
+## Project structure
 
+| File | Purpose |
+|---|---|
+| `STPigator.bat` | Launcher |
+| `Scripts/navigator.ps1` | Search interface, highlighting, history and key handling |
+| `Scripts/New-OutlookEmail.ps1` | Attaches a file to the open Outlook email or creates a new one |
+| `CLAUDE.md` | Notes for the AI coding agent used to build the project |

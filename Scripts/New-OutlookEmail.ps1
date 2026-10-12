@@ -1,8 +1,8 @@
 <#
-    New-OutlookEmail.ps1 - v2.0
-    • Now checks for an active, open email window in Outlook.
-    • If an email is open, attaches the file to it.
-    • If no email is open, creates a new email with the file attached (original behavior).
+.SYNOPSIS
+    Attaches a file to the Outlook email currently open, or creates a new
+    email with the file attached if none is open. Sets the subject from the
+    article number and type key when the subject is empty.
 #>
 
 param (
