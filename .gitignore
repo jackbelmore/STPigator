@@ -1,0 +1,11 @@
+# Large PDF files
+Data/PDFs/
+Data/STP_and_ZIPs/
+
+# Common OS files
+.DS_Store
+Thumbs.db
+
+# Local data and usage history
+Data/
+Scripts/file_history.json
